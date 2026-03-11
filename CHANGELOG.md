@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.1.0] - 2026-03-11
+
 ### Added
 
 - Task: `ManipulabilityTask` for maximizing robot manipulability
@@ -447,7 +449,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Python package infrastructure
 
-[unreleased]: https://github.com/stephane-caron/pink/compare/v4.0.0...HEAD
+[unreleased]: https://github.com/stephane-caron/pink/compare/v4.1.0...HEAD
+[4.1.0]: https://github.com/stephane-caron/pink/compare/v4.0.0...v4.1.0
 [4.0.0]: https://github.com/stephane-caron/pink/compare/v3.5.0...v4.0.0
 [3.5.0]: https://github.com/stephane-caron/pink/compare/v3.4.0...v3.5.0
 [3.4.0]: https://github.com/stephane-caron/pink/compare/v3.3.0...v3.4.0
