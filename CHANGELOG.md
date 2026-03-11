@@ -10,9 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Task: `ManipulabilityTask` for maximizing robot manipulability
-- examples: Add an example of a panda arm tracking an interactive target in Viser visualizer.
-- examples: Add planar 2-DOF manipulability example
 - examples: Add Panda manipulability comparison example
+- examples: Add planar 2-DOF manipulability example
+
+### Added
+
+- Task: Add `orientation_cost` property to the frame task (thanks to @danielsanjosepro)
+- Task: Add `position_cost` property to the frame task (thanks to @danielsanjosepro)
+- examples: Add an example of a panda arm tracking an interactive target in Viser visualizer (thanks to @danielsanjosepro)
+- visualization: Add `start_viser_visualizer` function for the Viser visualizer (thanks to @danielsanjosepro)
 
 ### Changed
 
