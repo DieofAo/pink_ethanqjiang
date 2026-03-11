@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - examples: Add planar 2-DOF manipulability example
 - examples: Add Panda manipulability comparison example
 
+### Changed
+
+- Bump minimum Python version to 3.10
+
 ## [4.0.0] - 2026-01-29
 
 ### Added
