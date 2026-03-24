@@ -137,7 +137,7 @@ class ManipulabilityTask(Task):
 
         else:
             raise ValueError(
-                "mask must be either a predefined string or"
+                "mask must be either a predefined string or "
                 "a custom binary numpy array"
             )
 
