@@ -14,7 +14,7 @@ This example...
  - ...allows to tune the manipulability rate and damping factor in real-time using Viser sliders
 
 If the manipulability rate is positive, the robot will form a 90-degree angle to maximize manipulability.
-If the manipulability rate is negative, the robot will strech out in a straight line or collapse (singular configuration).
+If the manipulability rate is negative, the robot will stretch out in a straight line or collapse (singular configuration).
 """  # noqa: E501
 
 import os
