@@ -146,7 +146,7 @@ class ManipulabilityTask(Task):
         mask_str: Literal["position", "orientation", "planar_xy"],
     ) -> Optional[np.ndarray]:
         if mask_str == "position":
-            return np.array([1, 1, 1, 0, 0, 0])
+            return np.array([1.0, 1.0, 1.0, 0.0, 0.0, 0.0])
         elif mask_str == "orientation":
             return np.array([0, 0, 0, 1, 1, 1])
         elif mask_str == "planar_xy":
