@@ -143,7 +143,7 @@ class ManipulabilityTask(Task):
     def _get_mask_from_string(
         self,
         mask_str: Literal["position", "orientation", "planar_xy"],
-    ) -> Optional[np.ndarray]:
+    ) -> np.ndarray:
         if mask_str == "position":
             return np.array([1.0, 1.0, 1.0, 0.0, 0.0, 0.0])
         elif mask_str == "orientation":
