@@ -109,7 +109,6 @@ class ManipulabilityTask(Task):
                 f"invalid reference frame {reference_frame} for Jacobian "
                 "computation; only LOCAL and WORLD are supported"
             )
-        self._cost_float = cost
         self.reference_frame = reference_frame
         self.manipulability_rate = manipulability_rate
         self.mask = self._get_validated_mask(mask)
