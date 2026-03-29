@@ -22,9 +22,7 @@ REVOLUTE_SHORTNAMES = {
 }
 
 
-def check_revolute_path(
-    model: pin.Model, frame_name: str
-) -> None:
+def check_revolute_path(model: pin.Model, frame_name: str) -> None:
     """Check that all joints on the kinematic path from root to frame are revolute.
 
     Args:
@@ -287,11 +285,11 @@ class ManipulabilityTask(Task):
 
         ...where :math:`\omega_j` is the j-th column of the angular part of
         the Jacobian and :math:`v_i` is the i-th column of the linear part of
-        the Jacobian.
-
-        For more details consider reading "Manipulator Differential Kinematics
-        Part 2: Acceleration and Advanced Applications" by Jesse Haviland and
-        Peter Corke.
+        the Jacobian. Those formulae correspond to Equations (25) and (27)
+        in [Manipulator Differential Kinematics: Part 2: Acceleration and
+        Advanced Applications](https://arxiv.org/abs/2207.01794v2) by Jesse
+        Haviland and Peter Corke. Consider reading that reference for more
+        details.
 
         Args:
             configuration: Robot configuration at which to evaluate the
