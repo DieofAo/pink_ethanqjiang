@@ -23,7 +23,7 @@ REVOLUTE_SHORTNAMES = {
 
 
 def check_revolute_path(model: pin.Model, frame_name: str) -> None:
-    """Check that all joints on the kinematic path from root to frame are revolute.
+    """Check all joints from root to frame are revolute.
 
     Args:
         model: Pinocchio robot model.
