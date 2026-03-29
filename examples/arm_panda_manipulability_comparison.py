@@ -264,6 +264,7 @@ if __name__ == "__main__":
 
     manipulability_task = ManipulabilityTask(
         frame=frame_name,
+        model=robot.model,
         cost=0.3,
         lm_damping=0.001,
         gain=1.0,

@@ -12,6 +12,40 @@ from typing_extensions import override
 from ..configuration import Configuration
 from .task import Task
 
+REVOLUTE_SHORTNAMES = {
+    "JointModelRX",
+    "JointModelRY",
+    "JointModelRZ",
+    "JointModelRevoluteUnaligned",
+    "JointModelRevoluteUnbounded",
+    "JointModelRevoluteUnboundedUnaligned",
+}
+
+
+def check_revolute_path(
+    model: pin.Model, frame_name: str
+) -> None:
+    """Check that all joints on the kinematic path from root to frame are revolute.
+
+    Args:
+        model: Pinocchio robot model.
+        frame_name: Name of the frame to check.
+
+    Raises:
+        ValueError: If a non-revolute joint is found on the path.
+    """
+    frame_id = model.getFrameId(frame_name)
+    joint_id = model.frames[frame_id].parentJoint
+    while joint_id != 0:
+        shortname = model.joints[joint_id].shortname()
+        if shortname not in REVOLUTE_SHORTNAMES:
+            raise ValueError(
+                f"Joint '{model.names[joint_id]}' on the path to "
+                f"frame '{frame_name}' is of type '{shortname}', "
+                f"but ManipulabilityTask only supports revolute joints."
+            )
+        joint_id = model.parents[joint_id]
+
 
 class ManipulabilityTask(Task):
     r"""Task to maximize the manipulability of a robot manipulator.
@@ -42,6 +76,10 @@ class ManipulabilityTask(Task):
             :math:`\dot{m}_\text{desired}` to achieve.
 
     Note:
+        This task assumes all joints on the kinematic path from the root to
+        the specified frame are revolute. This is checked at construction
+        time using the provided model.
+
         Check the manipulability task of PlaCo for a similar (yet different)
         implementation: https://placo.readthedocs.io/en/latest/kinematics/regularization.html#manipulability-regularization
         This term gives a behavior similar to the MMC controller
@@ -52,6 +90,7 @@ class ManipulabilityTask(Task):
     def __init__(
         self,
         frame: str,
+        model: pin.Model,
         cost: float = 1.0,
         lm_damping: float = 0.0,
         gain: float = 1.0,
@@ -67,6 +106,8 @@ class ManipulabilityTask(Task):
             frame: Frame name (from the robot model) for which to compute and
                 maximize manipulability. This is typically the end-effector
                 frame name.
+            model: Pinocchio robot model. Used to verify that all joints on
+                the kinematic path to the frame are revolute.
             cost: Weight for the manipulability task in the QP objective.
                 Scales both the Hessian and linear terms. Higher values
                 prioritize manipulability over other tasks. Defaults to 1.0.
@@ -112,6 +153,7 @@ class ManipulabilityTask(Task):
         self.reference_frame = reference_frame
         self.manipulability_rate = manipulability_rate
         self.mask = self._get_validated_mask(mask)
+        check_revolute_path(model, frame)
 
     def _get_validated_mask(
         self,
@@ -259,8 +301,6 @@ class ManipulabilityTask(Task):
             The kinematic Hessian tensor of shape (n, 6, n), where n is the
             number of degrees of freedom (model.nv).
 
-        Note:
-            This implementation assumes all joints are revolute.
         """
         frame_id = configuration.model.getFrameId(self.frame)
 

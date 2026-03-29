@@ -55,6 +55,7 @@ if __name__ == "__main__":
     # Define tasks
     manipulability_task = ManipulabilityTask(
         "end_effector",
+        model=robot.model,
         cost=1.0,
         lm_damping=1e-3,
         manipulability_rate=50.0,
