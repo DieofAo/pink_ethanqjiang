@@ -189,9 +189,9 @@ class ManipulabilityTask(Task):
         if mask_str == "position":
             return np.array([1.0, 1.0, 1.0, 0.0, 0.0, 0.0])
         elif mask_str == "orientation":
-            return np.array([0, 0, 0, 1, 1, 1])
+            return np.array([0.0, 0.0, 0.0, 1.0, 1.0, 1.0])
         elif mask_str == "planar_xy":
-            return np.array([1, 1, 0, 0, 0, 0])
+            return np.array([1.0, 1.0, 0.0, 0.0, 0.0, 0.0])
         else:
             raise ValueError(f"invalid mask string: {mask_str}")
 
