@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Task: Add `ManipulabilityTask` to maximize manipulability of a manipulator (thanks to @danielsanjosepro)
+
 ## [4.1.0] - 2026-03-11
 
 ### Added
