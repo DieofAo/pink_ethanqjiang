@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Task: Add `ManipulabilityTask` to maximize manipulability of a manipulator (thanks to @danielsanjosepro)
+- examples: Add Panda manipulability comparison example
+- examples: Add planar 2-DOF manipulability example
+- examples: Visualize current and designed center-of-mass positions in Humanoid G1 example (thanks to @nmarticorena)
+
+### Fixed
+
+- examples: Fix numerical behavior of Humanoid G1 example (thanks to @nmarticorena)
 
 ## [4.1.0] - 2026-03-11
 

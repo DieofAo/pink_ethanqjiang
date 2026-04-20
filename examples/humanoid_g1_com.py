@@ -6,11 +6,13 @@
 #
 # /// script
 # dependencies = ["daqp", "loop-rate-limiters", "meshcat", "pin-pink",
-# "qpsolvers", "robot_descriptions"]
+# "qpsolvers", "robot_descriptions>=1.21"]
 # ///
 
 """G1 humanoid squat by regulating CoM"""
 
+import meshcat.geometry as g
+import meshcat.transformations as tf
 import numpy as np
 import pinocchio as pin
 import qpsolvers
@@ -29,6 +31,12 @@ if __name__ == "__main__":
 
     # Initialize visualization
     viz = start_meshcat_visualizer(robot)
+    viz.viewer["com_target"].set_object(
+        g.Sphere(0.03), g.MeshLambertMaterial(color=0x00FF00)
+    )
+    viz.viewer["com"].set_object(
+        g.Sphere(0.03), g.MeshLambertMaterial(color=0xFF0000)
+    )
 
     q_ref = np.zeros(robot.nq)
     q_ref[2] = 0.72
@@ -53,7 +61,7 @@ if __name__ == "__main__":
     for foot in ["right_ankle_roll_link", "left_ankle_roll_link"]:
         task = FrameTask(
             foot,
-            position_cost=200.0,  # [cost] / [m]
+            position_cost=[2.0, 2.0, 200],  # [cost] / [m]
             orientation_cost=10.0,  # [cost] / [rad]
         )
         tasks.append(task)
@@ -76,7 +84,9 @@ if __name__ == "__main__":
 
     # Select QP solver
     solver = qpsolvers.available_solvers[0]
-    if "osqp" in qpsolvers.available_solvers:
+    if "daqp" in qpsolvers.available_solvers:
+        solver = "daqp"
+    elif "osqp" in qpsolvers.available_solvers:
         solver = "osqp"
 
     rate = RateLimiter(frequency=200.0, warn=False)
@@ -86,6 +96,8 @@ if __name__ == "__main__":
     omega = 2 * np.pi / period
 
     while True:
+        pin.centerOfMass(robot.model, robot.data, configuration.q)
+        com = robot.data.com[0]
         # Update CoM target
         Az = 0.05
         desired_com = np.zeros(3)
@@ -101,7 +113,11 @@ if __name__ == "__main__":
             safety_break=False,
         )
         configuration.integrate_inplace(velocity, dt)
-
         viz.display(configuration.q)
+        viz.viewer["com_target"].set_transform(
+            tf.translation_matrix(desired_com)
+        )
+        viz.viewer["com"].set_transform(tf.translation_matrix(com))
+
         rate.sleep()
         t += dt
