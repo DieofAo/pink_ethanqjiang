@@ -86,6 +86,8 @@ if __name__ == "__main__":
     solver = qpsolvers.available_solvers[0]
     if "daqp" in qpsolvers.available_solvers:
         solver = "daqp"
+    elif "osqp" in qpsolvers.available_solvers:
+        solver = "osqp"
 
     rate = RateLimiter(frequency=200.0, warn=False)
     dt = rate.period
