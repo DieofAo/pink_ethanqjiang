@@ -6,7 +6,7 @@
 #
 # /// script
 # dependencies = ["daqp", "loop-rate-limiters", "meshcat", "pin-pink",
-# "qpsolvers", "robot_descriptions">=1.21]
+# "qpsolvers", "robot_descriptions>=1.21"]
 # ///
 
 """G1 humanoid squat by regulating CoM"""
