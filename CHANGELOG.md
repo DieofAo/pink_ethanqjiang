@@ -10,14 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Task: Add `ManipulabilityTask` to maximize manipulability of a manipulator (thanks to @danielsanjosepro)
-
-## [4.1.0] - 2026-03-11
-
-### Added
-
-- Task: `ManipulabilityTask` for maximizing robot manipulability
 - examples: Add Panda manipulability comparison example
 - examples: Add planar 2-DOF manipulability example
+
+## [4.1.0] - 2026-03-11
 
 ### Added
 
