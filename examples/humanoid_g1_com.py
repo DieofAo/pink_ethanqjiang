@@ -11,6 +11,8 @@
 
 """G1 humanoid squat by regulating CoM"""
 
+import meshcat.geometry as g
+import meshcat.transformations as tf
 import numpy as np
 import pinocchio as pin
 import qpsolvers
@@ -22,10 +24,6 @@ from pink import solve_ik
 from pink.tasks import ComTask, FrameTask, PostureTask
 from pink.visualization import start_meshcat_visualizer
 
-import meshcat.geometry as g
-import meshcat.transformations as tf
-
-
 if __name__ == "__main__":
     robot = load_robot_description(
         "g1_description", root_joint=pin.JointModelFreeFlyer()
@@ -34,12 +32,10 @@ if __name__ == "__main__":
     # Initialize visualization
     viz = start_meshcat_visualizer(robot)
     viz.viewer["com_target"].set_object(
-        g.Sphere(0.03),
-        g.MeshLambertMaterial(color=0x00ff00)
+        g.Sphere(0.03), g.MeshLambertMaterial(color=0x00FF00)
     )
     viz.viewer["com"].set_object(
-        g.Sphere(0.03),
-        g.MeshLambertMaterial(color=0xff0000)
+        g.Sphere(0.03), g.MeshLambertMaterial(color=0xFF0000)
     )
 
     q_ref = np.zeros(robot.nq)
@@ -65,7 +61,7 @@ if __name__ == "__main__":
     for foot in ["right_ankle_roll_link", "left_ankle_roll_link"]:
         task = FrameTask(
             foot,
-            position_cost=[2.0,2.0,200],  # [cost] / [m]
+            position_cost=[2.0, 2.0, 200],  # [cost] / [m]
             orientation_cost=10.0,  # [cost] / [rad]
         )
         tasks.append(task)
@@ -119,9 +115,7 @@ if __name__ == "__main__":
         viz.viewer["com_target"].set_transform(
             tf.translation_matrix(desired_com)
         )
-        viz.viewer["com"].set_transform(
-            tf.translation_matrix(com)
-        )
+        viz.viewer["com"].set_transform(tf.translation_matrix(com))
 
         rate.sleep()
         t += dt
