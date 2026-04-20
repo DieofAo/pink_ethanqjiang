@@ -328,6 +328,42 @@ class TestManipulabilityTask(unittest.TestCase):
         with self.assertRaises(ValueError):
             ManipulabilityTask("ee", model, cost=1.0)
 
+    def test_manipulability_jacobian_vs_finite_differences(self):
+        """Manipulability Jacobian should match finite differences."""
+        task = ManipulabilityTask(
+            self.frame_name, self.configuration.model, cost=1.0
+        )
+        # q0 is singular for UR3; use a non-singular configuration
+        q = np.array([0.0, -np.pi / 4, np.pi / 2, -np.pi / 4, -np.pi / 2, 0.0])
+        configuration = Configuration(
+            self.configuration.model, self.configuration.data, q
+        )
+        Jm = task.compute_jacobian(configuration)
+
+        eps = 1e-6
+        nv = self.configuration.model.nv
+        grad_fd = np.zeros(nv)
+        for i in range(nv):
+            q_plus = q.copy()
+            q_plus[i] += eps
+            config_plus = Configuration(
+                self.configuration.model,
+                self.configuration.data,
+                q_plus,
+            )
+            q_minus = q.copy()
+            q_minus[i] -= eps
+            config_minus = Configuration(
+                self.configuration.model,
+                self.configuration.data,
+                q_minus,
+            )
+            m_plus = task.compute_manipulability(config_plus)
+            m_minus = task.compute_manipulability(config_minus)
+            grad_fd[i] = (m_plus - m_minus) / (2 * eps)
+
+        np.testing.assert_allclose(Jm.flatten(), grad_fd, atol=1e-4)
+
 
 if __name__ == "__main__":
     unittest.main()
